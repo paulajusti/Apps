@@ -1,0 +1,149 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Vaccine.PivotVacinas"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <phone:PhoneApplicationPage.Resources>
+        <shell:ApplicationBar x:Key="AppBar1"  IsMenuEnabled="True" IsVisible="True" BackgroundColor="#FF402315">
+            <shell:ApplicationBarIconButton IconUri="/Icons/add.png" Text="Add" Click="onClickAddProximaVacina"/>
+        </shell:ApplicationBar>
+
+        <shell:ApplicationBar x:Key="AppBar2"  IsMenuEnabled="True" IsVisible="True" BackgroundColor="#FF402315">
+            <shell:ApplicationBarIconButton IconUri="/Icons/add.png" Text="Add" Click="onClickAddVacinaFeita"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.Resources>
+
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="/background.png"/>
+        </Grid.Background>
+        <!--Pivot Control-->
+        <phone:Pivot Title="CARTEIRA DE VACINAÇÃO" Foreground="#FF402315" SelectionChanged="PivotMain_SelectionChange">
+            <!--========================================== PRÓXIMAS VACINAS ==========================================  -->
+            <!--Pivot item one-->
+            <phone:PivotItem Header="próximas vacinas">
+                <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                    <TextBlock x:Name="txbPesquisarPorNomeProximaVacina" Text="Pesquisar por nome:" Margin="264,0,6,0" />
+                    <TextBox x:Name="txbPesquisarProximaVacina" Text="" TextChanged="txbPesquisarProximaVacina_TextChanged" BorderBrush="#FF402315"/>
+                    <ListBox x:Name="lstProximasVacinas" DoubleTap="OnTap_DesmcarProximaVacina" SelectionChanged="OnSelectionChangeProximasVacinas" Height="489" Margin="13,0,13,0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,30">
+                                    <StackPanel>
+                                        <StackPanel Width="500" Height="150">
+                                            <StackPanel.Background>
+                                                <ImageBrush Stretch="Uniform" ImageSource="/item_vacina.png"/>
+                                            </StackPanel.Background>
+                                            <Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Nome: " FontSize="25" FontWeight="Bold" Margin="100,10,0,0"/>
+                                                    <TextBlock x:Name="txbNomeProximaVacina" Text="{Binding NomeProximaVacina}" FontSize="25" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Data: " FontSize="25" FontWeight="Bold" Margin="100,10,0,0"/>
+                                                    <TextBlock x:Name="txbDataProximaVacina"  Text="{Binding dataProximaVacinaDisplay}" FontSize="25" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <toolkit:ContextMenuService.ContextMenu>
+                                                <toolkit:ContextMenu IsZoomEnabled="True" >
+                                                    <toolkit:MenuItem x:Name="MenuEdit" Header="Editar" Click="OnClick_EditarProximaVacina"/>
+                                                    <toolkit:MenuItem x:Name="MenuExcluir" Header="Excluir" Click="OnClick_ExcluirProximaVacina"/>
+                                                    <toolkit:MenuItem x:Name="MenuMover" Header="Mover para Vacinas Feitas" Click="OnClick_MoverParaVacinasFeitas"/>
+                                                </toolkit:ContextMenu>
+                                            </toolkit:ContextMenuService.ContextMenu>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </phone:PivotItem>
+
+            <!--========================================== VACINAS FEITAS ==========================================  -->
+            <!--Pivot item two-->
+            <phone:PivotItem Header="vacinas feitas">
+                <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                    <TextBlock x:Name="txbPesquisarPorNomeVacinaFeita" Text="Pesquisar por nome:" Margin="264,0,6,0" />
+                    <TextBox x:Name="txbPesquisarVacinaFeita" Text="" TextChanged="txbPesquisarVacinaFeita_TextChanged" BorderBrush="#FF402315"/>
+                    <ListBox x:Name="lstVacinasFeitas" DoubleTap="OnTap_DesmcarVacinaFeita" SelectionChanged="OnSelectionChangeVacinasFeitas" Height="489" Margin="13,0,13,0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,30">
+                                    <StackPanel>
+                                        <StackPanel Width="500" Height="250">
+                                            <StackPanel.Background>
+                                                <ImageBrush Stretch="Uniform" ImageSource="/item_vacina3.png"/>
+                                            </StackPanel.Background>
+                                            <Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Nome: " FontSize="25" FontWeight="Bold" Margin="100,10,0,0"/>
+                                                    <TextBlock x:Name="txbNomeVacinaFeita" Text="{Binding NomeVacinaFeita}" FontSize="25" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Lote da Vacina: " FontSize="25" FontWeight="Bold" Margin="100,10,0,0"/>
+                                                    <TextBlock x:Name="txbLoteVacinaFeita" Text="{Binding loteVacinaFeita}" FontSize="25" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Local de aplicação: " FontSize="25" FontWeight="Bold" Margin="100,10,0,0"/>
+                                                    <TextBlock x:Name="txbLocalAplicacao" Text="{Binding localVacinaFeita}" FontSize="25" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Reações: " FontSize="25" FontWeight="Bold" Margin="100,10,0,0"/>
+                                                    <TextBlock x:Name="txbSintomaVacinaFeita" Text="{Binding reacaoVacinaFeita}" FontSize="25" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Data: " FontSize="25" FontWeight="Bold" Margin="100,10,0,0"/>
+                                                    <TextBlock x:Name="txbDataVacinaFeita" Text="{Binding dataVacinaFeitaDisplay}" FontSize="25" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <toolkit:ContextMenuService.ContextMenu>
+                                                <toolkit:ContextMenu IsZoomEnabled="True" >
+                                                    <toolkit:MenuItem x:Name="MenuEdit" Header="Editar" Click="OnClick_EditarVacinaFeita"/>
+                                                    <toolkit:MenuItem x:Name="MenuExcluir" Header="Excluir" Click="OnClick_ExcluirVacinaFeita"/>
+                                                </toolkit:ContextMenu>
+                                            </toolkit:ContextMenuService.ContextMenu>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </phone:PivotItem>
+
+        </phone:Pivot>
+    </Grid>
+
+</phone:PhoneApplicationPage>
